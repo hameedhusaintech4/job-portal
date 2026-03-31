@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('login') }}">
+<form method="POST" action="/login">
     @csrf
     <input type="hidden" name="role" value="employee">
     <input type="email" name="email" placeholder="Email">
