@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Dashboard</title>
-</head>
-<body>
+@extends('layouts.admin')
 
-    <h1>Welcome Admin </h1>
-
-    <p>You are logged in as Admin</p>
-
-    <a href="/logout">Logout</a>
-
-</body>
-</html>
+@section('content')
+    <h2>Welcome Admin Dashboard</h2>
+@endsection

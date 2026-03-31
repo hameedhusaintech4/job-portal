@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\Admin\EmployerController;
 
 
 Route::get('/', function () {
@@ -38,12 +38,16 @@ Route::get('/employer/login', function () {
 
 Route::prefix('admin')->middleware(['auth','role:admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/employer/create', [EmployerController::class, 'create']);
+    Route::post('/employer/store', [EmployerController::class, 'store']);
+    Route::get('/employers', [EmployerController::class, 'employers']);
 });
 
 Route::prefix('employer')->middleware(['auth','role:employer'])->group(function () {
     Route::get('/dashboard', function () {
         return "Employer Dashboard";
     });
+
 });
 
 Route::prefix('employee')->middleware(['auth','role:employee'])->group(function () {
