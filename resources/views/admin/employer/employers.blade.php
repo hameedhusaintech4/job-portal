@@ -65,8 +65,12 @@
                                 </td>
 
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-info">View</a>
-                                    <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                    <a href="/admin/employer/{{ $company->id }}" class="btn btn-sm btn-info">
+                                        View
+                                    </a>
+                                    <a href="/admin/employer/edit/{{ $company->id }}" class="btn btn-sm btn-warning">
+                                        Edit
+                                    </a>
                                 </td>
                             </tr>
                         @empty
