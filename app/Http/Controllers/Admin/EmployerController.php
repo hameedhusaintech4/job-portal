@@ -59,11 +59,72 @@ class EmployerController extends Controller
 
         return redirect('/admin/dashboard')->with('success', 'Employer Created Successfully');
     }
-    // 🔹 LIST PAGE (renamed from index → employers)
+    //  LIST PAGE (renamed from index → employers)
     public function employers()
     {
         $companies = CompanyRegistration::with(['user', 'creator'])->latest()->get();
 
         return view('admin.employer.employers', compact('companies'));
+    }
+    public function show($id)
+    {
+        $company = CompanyRegistration::with(['user', 'creator'])->findOrFail($id);
+
+        return view('admin.employer.view', compact('company'));
+    }
+        //  SHOW EDIT FORM
+    public function edit($id)
+    {
+        $company = CompanyRegistration::with('user')->findOrFail($id);
+
+        return view('admin.employer.create', compact('company')); // SAME FILE
+    }
+
+
+    // 🔹 UPDATE DATA
+    public function update(Request $request, $id)
+    {
+        $company = CompanyRegistration::with('user')->findOrFail($id);
+
+        $request->validate([
+            'company_name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $company->user->id,
+            'phone' => 'required',
+            'industry_type' => 'required',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'address' => 'required',
+        ]);
+
+        //  UPDATE USERS TABLE
+        $company->user->update([
+            'name' => $request->company_name,
+            'email' => $request->email,
+        ]);
+
+        //  UPDATE PASSWORD ONLY IF FILLED
+        if ($request->filled('password')) {
+            $company->user->update([
+                'password' => Hash::make($request->password)
+            ]);
+        }
+
+        //  UPDATE COMPANY TABLE
+        $company->update([
+            'company_name' => $request->company_name,
+            'phone' => $request->phone,
+            'website' => $request->website,
+            'company_size' => $request->company_size,
+            'industry_type' => $request->industry_type,
+            'country' => $request->country,
+            'state' => $request->state,
+            'city' => $request->city,
+            'address' => $request->address,
+            'description' => $request->description,
+            'founded_year' => $request->founded_year,
+        ]);
+
+        return redirect('/admin/employers')->with('success', 'Employer Updated Successfully');
     }
 }

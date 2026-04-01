@@ -41,6 +41,11 @@ Route::prefix('admin')->middleware(['auth','role:admin'])->group(function () {
     Route::get('/employer/create', [EmployerController::class, 'create']);
     Route::post('/employer/store', [EmployerController::class, 'store']);
     Route::get('/employers', [EmployerController::class, 'employers']);
+    Route::get('/employer/{id}', [EmployerController::class, 'show']);
+
+
+    Route::get('employer/edit/{id}', [EmployerController::class, 'edit']);
+    Route::put('employer/update/{id}', [EmployerController::class, 'update']);
 });
 
 Route::prefix('employer')->middleware(['auth','role:employer'])->group(function () {
